@@ -244,6 +244,7 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
   .hk-zeile .j:nth-child(6), .lz-zeile .j:nth-child(6) { grid-column: 5; }
   .lp-bereich > h3, .lp-unter { grid-template-columns: 2.8rem 1fr; column-gap: .3rem; }
   .lz-jahr { display: block; }
+  .lz-mat { margin-top: 1rem; }
   .lp-steuerung { position: static; }
   .lp-filter { font-size: .95rem; }
   .lp-filter { gap: .5rem 1.4rem; }
@@ -278,7 +279,11 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
 
 
 /* Verlinktes Lernmaterial */
-.lz-material .material { grid-column: 2; list-style: none; max-width: 46em; }
+.lz-jahr.mit-material { grid-template-columns: 4.2rem minmax(0, 1fr) minmax(12rem, 17rem); column-gap: 1.6rem; }
+.lz-jahr.mit-material > .lj { grid-column: 2; grid-row: 1; }
+.lz-jahr.mit-material > .inhalte, .lz-jahr.mit-material > .leer { grid-column: 2; grid-row: 2; }
+.lz-mat { grid-column: 3; grid-row: 1 / span 2; }
+.lz-mat .material { list-style: none; }
 .material li { display: flex; align-items: baseline; gap: .8rem; padding: .35rem 0; border-top: 1px solid rgba(17,17,17,.1); }
 .material a { font-weight: 700; text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: 2px; text-underline-offset: .22em; }
 .material a::before { content: "→ "; }
@@ -639,14 +644,14 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
   }
 
   function detail(lz, nurJahr) {
-    var mat = materialVon(lz, nurJahr).map(function (m) {
-      return '<li><a href="' + esc(m.pfad) + '">' + esc(m.titel) + '</a>' + (m.art ? ' <span>' + esc(m.art) + '</span>' : '') + '</li>';
-    }).join("");
-    return (mat ? '<div class="lz-jahr lz-material"><b class="lj">Material</b><ul class="material">' + mat + '</ul></div>' : '') +
-      jahreVon(lz, nurJahr).map(function (j) {
+    return jahreVon(lz, nurJahr).map(function (j) {
       var inhalte = (lz.jahre[j].inhalte || []).map(function (i) { return '<li' + (/^(Wird |Hinweis)/.test(i.text) ? ' class="verweis"' : '') + '>' + markieren(i.text) + '</li>'; }).join("");
-      return '<div class="lz-jahr"><b class="lj">' + j + '. Lehrjahr</b>' +
-        (inhalte ? '<ul class="inhalte">' + inhalte + '</ul>' : '<p class="leer">Keine Inhalte aufgeführt.</p>') + '</div>';
+      var mat = materialVon(lz, j).map(function (m) {
+        return '<li><a href="' + esc(m.pfad) + '">' + esc(m.titel) + '</a>' + (m.art ? ' <span>' + esc(m.art) + '</span>' : '') + '</li>';
+      }).join("");
+      return '<div class="lz-jahr' + (mat ? ' mit-material' : '') + '"><b class="lj">' + j + '. Lehrjahr</b>' +
+        (inhalte ? '<ul class="inhalte">' + inhalte + '</ul>' : '<p class="leer">Keine Inhalte aufgeführt.</p>') +
+        (mat ? '<div class="lz-mat"><b class="lj">Material</b><ul class="material">' + mat + '</ul></div>' : '') + '</div>';
     }).join("");
   }
 
