@@ -249,16 +249,11 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
 
 @media (max-width: 760px) {
   .lp-kopf { display: none; }
-  .hk-zeile, .lz-zeile { grid-template-columns: 2.8rem repeat(4, 1.6rem) 1fr 1.2rem; column-gap: .3rem; row-gap: .35rem; }
-  .hk-zeile .code, .lz-zeile .code { grid-row: 1; grid-column: 1; align-self: start; }
+  .hk-zeile, .lz-zeile { grid-template-columns: 2.8rem 1fr 1.2rem; column-gap: .3rem; }
+  .hk-zeile .code, .lz-zeile .code { align-self: start; }
   .lz-zeile .code { padding-left: .5rem; }
-  .hk-zeile .titel, .lz-zeile .titel { grid-row: 1; grid-column: 2 / 7; }
-  .hk-zeile .auf, .lz-zeile .auf { grid-row: 1; grid-column: 7; align-self: start; }
-  .hk-zeile .j, .lz-zeile .j { grid-row: 2; justify-content: flex-start; height: 1.2rem; }
-  .hk-zeile .j:nth-child(3), .lz-zeile .j:nth-child(3) { grid-column: 2; }
-  .hk-zeile .j:nth-child(4), .lz-zeile .j:nth-child(4) { grid-column: 3; }
-  .hk-zeile .j:nth-child(5), .lz-zeile .j:nth-child(5) { grid-column: 4; }
-  .hk-zeile .j:nth-child(6), .lz-zeile .j:nth-child(6) { grid-column: 5; }
+  .hk-zeile .auf, .lz-zeile .auf { align-self: start; }
+  .hk-zeile .j, .lz-zeile .j, .lp-legende { display: none; }
   .lp-bereich > h3, .lp-unter { grid-template-columns: 2.8rem 1fr; column-gap: .3rem; }
   .lz-jahr { display: block; }
   .lz-mat { margin-top: 1rem; }
@@ -550,7 +545,7 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
   }
   var gestartet = false;
   function starten() { if (gestartet) return; gestartet = true; fallen(); }
-  setTimeout(starten, 2500);
+  setTimeout(starten, 2000);
   portrait.addEventListener("click", function () { if (!justier) fallen(); });
 
   /* ---------- Parallax ---------- */
