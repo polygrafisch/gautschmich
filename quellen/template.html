@@ -177,6 +177,7 @@ a { color: inherit; text-decoration: none; }
 /* Spaltenkopf und Zeilen teilen dasselbe Raster */
 .lp-kopf { font-size: .8rem; padding: .5rem 0; border-top: 1px solid rgba(17,17,17,.15); }
 .lp-kopf .j { text-align: center; }
+.lp-bereich > h3 + .lp-kopf, .lp-unter + .lp-kopf { border-top: 0; opacity: .7; }
 .j.aus { opacity: .18; }
 
 .lp-bereich { margin-top: 3.2rem; }
@@ -399,10 +400,6 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
           <button type="button" data-bereich="" aria-pressed="true">Alle</button>
         </div>
         <button type="button" class="lp-alle" id="lpAlle">Alle aufklappen</button>
-      </div>
-      <div class="lp-kopf" aria-hidden="true">
-        <span>Code</span><span>Handlungskompetenz, Leistungsziel</span>
-        <span class="j" data-j="1">1. LJ</span><span class="j" data-j="2">2. LJ</span><span class="j" data-j="3">3. LJ</span><span class="j" data-j="4">4. LJ</span><span></span>
       </div>
     </div>
 
@@ -726,6 +723,12 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
       '</div>';
   }
 
+  /* Spaltenköpfe, unter jedem Handlungskompetenzbereich wiederholt */
+  function kopf() {
+    return '<div class="lp-kopf" aria-hidden="true"><span>Code</span><span>Handlungskompetenz, Leistungsziel</span>' +
+      ["1", "2", "3", "4"].map(function (j) { return '<span class="j" data-j="' + j + '">' + j + '. LJ</span>'; }).join("") + '<span></span></div>';
+  }
+
   function nachHk(lzs) {
     var gruppen = [], idx = {};
     lzs.forEach(function (lz) {
@@ -746,7 +749,7 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
       Object.keys(DATEN.bereiche).forEach(function (b) {
         var inB = treffer.filter(function (lz) { return lz.bereich === b; });
         if (!inB.length) return;
-        html += '<div class="lp-bereich" data-b="' + b + '"><h3><span>' + b + '</span><span>' + KURZ[b] + '<small>' + esc(DATEN.bereiche[b]) + '</small></span></h3>';
+        html += '<div class="lp-bereich" data-b="' + b + '"><h3><span>' + b + '</span><span>' + KURZ[b] + '<small>' + esc(DATEN.bereiche[b]) + '</small></span></h3>' + kopf();
         nachHk(inB).forEach(function (g) {
           sichtbar.push({ hk: ":" + g.hk, lzs: g.lzs.map(function (lz) { return ":" + lz.code; }) });
           html += hkBlock(g.hk, g.lzs, "");
@@ -763,7 +766,7 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
         nachHk(inJ).forEach(function (g) {
           if (g.hk[0] !== b) {
             b = g.hk[0];
-            html += '<div class="lp-unter" data-b="' + b + '"><b>' + b + '</b><span><strong>' + KURZ[b] + '</strong> <span class="voll">' + esc(DATEN.bereiche[b]) + '</span></span></div>';
+            html += '<div class="lp-unter" data-b="' + b + '"><b>' + b + '</b><span><strong>' + KURZ[b] + '</strong> <span class="voll">' + esc(DATEN.bereiche[b]) + '</span></span></div>' + kopf();
           }
           sichtbar.push({ hk: j + ":" + g.hk, lzs: g.lzs.map(function (lz) { return j + ":" + lz.code; }) });
           html += hkBlock(g.hk, g.lzs, j);
