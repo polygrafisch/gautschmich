@@ -29,6 +29,9 @@ p { margin: 0; }
 /* Kopf */
 header.top { border-bottom: 1.5px solid var(--schwarz); padding-bottom: 16px; display: grid; gap: 10px; }
 .kenn { font-size: .9375rem; color: var(--hilf); }
+.kopfzeile { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 20px; }
+.heim { font-size: .9375rem; font-weight: 700; color: var(--f-text); background: var(--f-ton); padding: .3em .7em; text-decoration: none; white-space: nowrap; }
+.heim:hover, .heim:focus-visible { background: var(--f-linie); color: var(--weiss); }
 .kenn b { display: inline-block; min-width: 1.5em; margin-right: .35em; padding: .05em .4em; background: var(--f-linie); color: var(--weiss); text-align: center; }
 header.top h1 { margin: 0; font-size: clamp(2rem, 6vw, 3.25rem); font-weight: 700; letter-spacing: -0.025em; line-height: 1.0; }
 header.top h1 .zusatz { display: inline-block; font-size: max(15px, .4em); font-weight: 400; letter-spacing: 0; color: var(--hilf); }
@@ -127,7 +130,10 @@ h3.zwischen { font-size: 1.15rem; font-weight: 700; margin: 0 0 6px; }
 <body>
 <div class="wrap">
 <header class="top">
+  <div class="kopfzeile">
   <p class="kenn"><b>f</b> Produzieren von Print- und Screenmedien, Leistungsziel f2.4</p>
+    <a class="heim" href="https://gautschmi.ch/">zurück zu gautschmi.ch</a>
+  </div>
   <h1>Datenformate üben <span class="zusatz">(ohne Audio/Video)</span></h1>
   <p class="hilf">Repetition für das 2. Lehrjahr</p>
 </header>

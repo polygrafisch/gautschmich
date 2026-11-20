@@ -43,6 +43,7 @@ Material zu einem Bereich darf dessen Farbe dezent als Akzent verwenden: Linie, 
 - Keine Canvas-Pixel auslesen (getImageData). LibreWolf und Firefox mit Fingerprint-Schutz blockieren das. Daten lieber beim Erstellen vorberechnen.
 - Mobil tauglich (ab 360 px Breite), Tastatur bedienbar, prefers-reduced-motion respektieren.
 - Browser-Speicher (localStorage) nur für Kleinigkeiten wie Spielstand, immer mit try/catch.
+- Kopfzeile: Oben rechts im Kopf jedes Materials steht der Link «zurück zu gautschmi.ch» (`https://gautschmi.ch/`), fett, in der Textfarbe des Bereichs, mit dem Ton 13 % hinterlegt; beim Überfahren Bereichslinie als Hintergrund und weisse Schrift. Links daneben der Kennbuchstabe und das Leistungsziel.
 - Fusszeile: Jedes Lernmaterial endet mit dem Baustein `quellen/fusszeile.html`, unverändert übernommen (HTML, CSS und Skript). Er enthält «**gautschmi.ch** Alle Angaben ohne Gewähr. Es gelten die jeweiligen Schullehrpläne.», «Fehler melden» und «zurück zu gautschmi.ch». Die Mailadresse wird erst beim Klick per JavaScript zusammengesetzt und darf nie im Quelltext stehen. Der Betreff enthält automatisch den Seitentitel (`<title>`), darum jedem Material einen treffenden Titel geben.
 
 ## Aufbau des Repositorys
