@@ -197,7 +197,7 @@ a { color: inherit; text-decoration: none; }
 .hk-zeile { padding: .9rem 0; }
 .hk-zeile .code { font-weight: 700; }
 .hk-zeile .titel { font-weight: 700; line-height: 1.25; }
-.hk-zeile .titel small { display: block; font-weight: 400; font-size: .8rem; opacity: .55; margin-top: .2rem; }
+.hk-zeile .titel small { display: block; font-weight: 400; font-size: .8rem; color: rgba(17,17,17,.55); margin-top: .2rem; }
 .hk.offen > .hk-zeile { border-bottom: 1.5px solid var(--schwarz); }
 .hk-inhalt { padding-bottom: 1.2rem; }
 
@@ -291,8 +291,15 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
 .lp-unter[data-b] b { color: var(--ft); }
 .lp-unter[data-b] strong { font-weight: 700; }
 .lp-unter[data-b] .voll { opacity: .6; margin-left: .5rem; }
-.lp-steuerung button[data-bereich]:not([data-bereich=""]) { color: var(--ft); font-weight: 700; }
-.lp-steuerung button[data-bereich]:not([data-bereich=""])[aria-pressed="true"] { border-bottom-color: var(--f); }
+.lp-steuerung button[data-bereich]:not([data-bereich=""]) {
+  display: inline-flex; align-items: center; justify-content: center; align-self: center;
+  width: 1.65rem; height: 1.65rem; padding: 0 0 .1rem; border: 0; border-radius: 50%;
+  background: var(--f); color: var(--weiss); font-weight: 700; line-height: 1;
+}
+.lp-steuerung button[data-bereich]:not([data-bereich=""]):hover { box-shadow: 0 0 0 2px var(--weiss), 0 0 0 3px rgba(17,17,17,.3); }
+.lp-steuerung button[data-bereich]:not([data-bereich=""])[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--weiss), 0 0 0 3.5px var(--schwarz); }
+.lp-steuerung button[data-bereich]:not([data-bereich=""]):focus-visible { outline: 2px solid var(--schwarz); outline-offset: 3px; }
+[data-b] .punkt { background: var(--f); }
 
 
 /* Verlinktes Lernmaterial */
@@ -306,8 +313,9 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
 .material a::before { content: "→ "; }
 .material a:hover { text-decoration-color: var(--schwarz); }
 .material span { font-size: .85rem; opacity: .55; }
-.lz-zeile .mat-hinweis { display: block; font-size: .8rem; font-weight: 400; opacity: .7; margin-top: .15rem; }
-.lz-zeile .mat-hinweis::before, .mat-zahl::before { content: ""; display: inline-block; width: .5em; height: .5em; border-radius: 50%; background: var(--f, var(--pink)); margin-right: .35em; vertical-align: .05em; }
+.lz-zeile .mat-hinweis { display: block; font-size: .8rem; font-weight: 700; margin-top: .15rem; }
+.mat-zahl { color: var(--schwarz); font-weight: 700; }
+.lz-zeile .mat-hinweis::before, .mat-zahl::before { content: ""; display: inline-block; width: .6em; height: .6em; border-radius: 50%; background: var(--f, var(--pink)); margin-right: .4em; vertical-align: .05em; }
 
 /* ================= Justiermodus ================= */
 .justier .brille { cursor: grab; outline: 1px dashed var(--schwarz); outline-offset: 4px; touch-action: none; }
