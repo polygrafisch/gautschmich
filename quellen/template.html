@@ -107,6 +107,22 @@ a { color: inherit; text-decoration: none; }
 .brille-flug { opacity: 0; }
 .brille svg { width: 100%; height: auto; display: block; shape-rendering: crispEdges; }
 
+/* Sprechblase: kantig wie die Pixelbrille */
+.sprechblase {
+  position: absolute; z-index: 3;
+  right: 74%; top: 33%;
+  background: var(--weiss); color: var(--schwarz);
+  border: 3px solid var(--schwarz);
+  padding: .3em .6em .35em;
+  font-weight: 700; font-size: clamp(1.1rem, 2.2vw, 2.1rem); line-height: 1;
+  letter-spacing: -0.01em; white-space: nowrap;
+  transform-origin: 100% 100%;
+}
+.sprechblase::before, .sprechblase::after { content: ""; position: absolute; width: 0; height: 0; border-style: solid; }
+.sprechblase::before { right: -3px; bottom: -21px; border-width: 18px 0 0 22px; border-color: var(--schwarz) transparent transparent transparent; }
+.sprechblase::after { right: 2px; bottom: -12px; border-width: 11px 0 0 14px; border-color: var(--weiss) transparent transparent transparent; }
+.sprechblase.zu { visibility: hidden; }
+
 /* Passkreuz als Scroll-Hinweis */
 .runter {
   position: absolute; z-index: 5;
@@ -312,6 +328,7 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
   .kopfzeile { font-size: .8rem; }
   .portrait-ebene { right: 50%; transform: translateX(50%); bottom: auto; top: 9svh; }
   #raster { height: min(58svh, 128vw); }
+  .sprechblase { right: auto; left: -2%; top: 30%; font-size: 1rem; border-width: 2px; }
   .wortmarke { font-size: 25vw; }
   .typo { bottom: 6svh; }
   .runter span { display: none; }
@@ -344,6 +361,7 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
           <svg viewBox="0 0 26 5" aria-hidden="true">__BRILLE__</svg>
         </div>
       </div>
+      <p class="sprechblase zu" id="sprechblase">Proscht!</p>
     </div>
   </div>
 
@@ -492,8 +510,19 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
 
   /* ---------- Brille ---------- */
   var anim = null;
+  var blase = document.getElementById("sprechblase"), blaseAnim = null;
+  function blaseZeigen(verzoegerung) {
+    if (blaseAnim) blaseAnim.cancel();
+    blase.classList.add("zu");
+    if (leise) { blase.classList.remove("zu"); return; }
+    blaseAnim = blase.animate([
+      { transform: "scale(0)", visibility: "visible" },
+      { transform: "scale(1)", visibility: "visible" }
+    ], { duration: 300, delay: verzoegerung, easing: "steps(4, end)", fill: "forwards" });
+  }
   function fallen() {
     if (justier) return;
+    blaseZeigen(3400);
     if (leise) { flug.style.opacity = 1; return; }
     if (anim) anim.cancel();
     anim = flug.animate([
