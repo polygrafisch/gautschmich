@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "titel": "Datenformate üben",
+    "pfad": "material/datenformate/",
+    "art": "Lernspiel",
+    "leistungsziele": [
+      "f2.4",
+      "f2.6"
+    ],
+    "lehrjahre": [
+      2
+    ]
+  }
+]
