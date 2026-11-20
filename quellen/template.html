@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gautschmi.ch – Lernmaterial für Polygrafinnen und Polygrafen EFZ</title>
+<meta name="description" content="Selbst gemachtes Lernmaterial für Polygrafinnen und Polygrafen EFZ. Bis ans Wasser.">
+<meta name="theme-color" content="#ff48b0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Crect width=%2216%22 height=%2216%22 fill=%22%23ff48b0%22/%3E%3Ccircle cx=%228%22 cy=%228%22 r=%225%22 fill=%22%23111%22/%3E%3C/svg%3E">
+<style>
+/* TeX Gyre Heros (GUST Font License), eingebettet als Subset */
+@font-face { font-family: "Heros"; font-weight: 400; font-style: normal; font-display: swap;
+  src: local("TeX Gyre Heros"), local("TeXGyreHeros-Regular"), url(data:font/woff2;base64,__HEROS_REGULAR__) format("woff2"); }
+@font-face { font-family: "Heros"; font-weight: 700; font-style: normal; font-display: swap;
+  src: local("TeX Gyre Heros Bold"), local("TeXGyreHeros-Bold"), url(data:font/woff2;base64,__HEROS_BOLD__) format("woff2"); }
+@font-face { font-family: "Heros"; font-weight: 400; font-style: italic; font-display: swap;
+  src: local("TeX Gyre Heros Italic"), local("TeXGyreHeros-Italic"), url(data:font/woff2;base64,__HEROS_ITALIC__) format("woff2"); }
+
+:root {
+  /* Position der Brille auf der Nase, in % des Bildes.
+     Feinjustieren: Seite mit #justieren am Ende der URL öffnen. */
+  --bx: 57.2%; /* Mitte der Brille, horizontal */
+  --by: 32.8%; /* Mitte der Brille, vertikal */
+  --bw: 36%;   /* Breite der Brille */
+  --br: -1deg; /* Drehung */
+
+  --pink: #ff48b0;   /* Riso Fluorescent Pink */
+  --schwarz: #111111;
+  --weiss: #ffffff;
+  --rand: 2.5vw;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--schwarz); }
+body {
+  font-family: "Heros", "TeX Gyre Heros", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: clamp(1rem, 0.35vw + 0.9rem, 1.2rem);
+  line-height: 1.5;
+  color: var(--weiss);
+  background: var(--schwarz);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ================= Hero ================= */
+/* Der pinke Bogen bleibt stehen, der weisse Teil schiebt sich wie ein neuer Bogen darüber */
+.hero {
+  position: sticky; top: 0;
+  height: 100svh;
+  min-height: 600px;
+  overflow: hidden;
+  background: var(--pink);
+  color: var(--schwarz);
+}
+.ebene { position: absolute; will-change: transform; }
+
+.kopfzeile {
+  position: absolute; z-index: 5;
+  top: 0; left: var(--rand); right: var(--rand);
+  display: flex; justify-content: flex-end; align-items: baseline; gap: 1rem;
+  padding: 1.3rem 0 .7rem;
+  font-size: .95rem;
+  line-height: 1.2;
+}
+
+/* Schnittmarken */
+.schnitt { position: absolute; width: 22px; height: 22px; z-index: 5; pointer-events: none; }
+.schnitt::before, .schnitt::after { content: ""; position: absolute; background: var(--schwarz); }
+.schnitt::before { width: 100%; height: 1px; }
+.schnitt::after { width: 1px; height: 100%; }
+.schnitt.lo { left: 8px; top: 8px; } .schnitt.lo::before { top: 0; } .schnitt.lo::after { left: 0; }
+.schnitt.ro { right: 8px; top: 8px; } .schnitt.ro::before { top: 0; } .schnitt.ro::after { right: 0; }
+.schnitt.lu { left: 8px; bottom: 8px; } .schnitt.lu::before { bottom: 0; } .schnitt.lu::after { left: 0; }
+.schnitt.ru { right: 8px; bottom: 8px; } .schnitt.ru::before { bottom: 0; } .schnitt.ru::after { right: 0; }
+
+/* Wortmarke */
+.typo { left: var(--rand); bottom: 3.5svh; z-index: 4; pointer-events: none; }
+.wortmarke {
+  font-weight: 700;
+  font-size: clamp(5rem, 15.5vw, 18rem);
+  line-height: .78;
+  letter-spacing: -0.06em;
+  margin-left: -0.04em;
+  text-shadow: .018em .018em 0 var(--weiss);
+}
+.wortmarke > span { display: block; }
+.wortmarke .pkt { font-size: .6em; }
+
+/* Portrait */
+.portrait-ebene { right: 3vw; bottom: 0; z-index: 3; }
+.portrait { position: relative; line-height: 0; cursor: pointer; }
+#raster {
+  display: block;
+  height: min(86svh, 150vw);
+  width: auto;
+  aspect-ratio: 760 / 966;
+}
+
+/* Brille */
+.brille {
+  position: absolute; z-index: 2;
+  left: var(--bx); top: var(--by); width: var(--bw);
+  transform: translate(-50%, -50%) rotate(var(--br));
+  line-height: 0;
+}
+.brille-flug { opacity: 0; }
+.brille svg { width: 100%; height: auto; display: block; shape-rendering: crispEdges; }
+
+/* Passkreuz als Scroll-Hinweis */
+.runter {
+  position: absolute; z-index: 5;
+  left: 50%; bottom: 2svh; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: .3rem;
+  font-size: .8rem; line-height: 1;
+}
+.runter svg { width: 26px; height: 26px; }
+
+/* ================= Wasser ================= */
+
+/* ================= Lehrplan ================= */
+.bogen { position: relative; z-index: 2; }
+.lehrplan {
+  background: var(--weiss);
+  color: var(--schwarz);
+  min-height: 110vh;
+  padding: 10vh var(--rand) 3vh;
+  display: flex; flex-direction: column;
+}
+.lehrplan h2 {
+  font-weight: 700;
+  font-size: clamp(1.85rem, 5.2vw, 5.5rem);
+  line-height: .98;
+  margin-bottom: 3rem;
+  letter-spacing: -0.012em;
+  padding-bottom: 1rem;
+  border-bottom: 1.5px solid var(--schwarz);
+}
+
+/* Steuerung: klebt beim Scrollen oben */
+.lp-steuerung {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--weiss);
+  box-shadow: -.8rem 0 0 var(--weiss), .8rem 0 0 var(--weiss);
+  padding-top: .8rem;
+  border-bottom: 1.5px solid var(--schwarz);
+}
+.lp-filter { display: flex; flex-wrap: wrap; gap: .4rem 2.5rem; align-items: baseline; padding-bottom: .8rem; }
+.lp-gruppe { display: flex; gap: .2rem .9rem; align-items: baseline; flex-wrap: wrap; }
+.lp-gruppe > span { font-size: .85rem; opacity: .55; margin-right: .2rem; }
+.lp-steuerung button {
+  font: inherit; color: inherit; background: none; border: 0; padding: .15rem 0; cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.lp-steuerung button:hover { border-bottom-color: rgba(17,17,17,.3); }
+.lp-steuerung button[aria-pressed="true"] { font-weight: 700; border-bottom-color: var(--schwarz); }
+.lp-alle { margin-left: auto; font-size: .9rem; }
+
+/* Spaltenkopf und Zeilen teilen dasselbe Raster */
+.lp-kopf { font-size: .8rem; padding: .5rem 0; border-top: 1px solid rgba(17,17,17,.15); }
+.lp-kopf .j { text-align: center; }
+.j.aus { opacity: .18; }
+
+.lp-bereich { margin-top: 3.2rem; }
+.lp-bereich:first-child { margin-top: 1.5rem; }
+.lp-bereich > h3 {
+  display: grid; grid-template-columns: 4.2rem 1fr; column-gap: .6rem;
+  font-size: clamp(1.2rem, 1.5vw, 1.5rem); line-height: 1.15; letter-spacing: -0.01em; font-weight: 700;
+  padding-bottom: .6rem; border-bottom: 1.5px solid var(--schwarz);
+  hyphens: auto; -webkit-hyphens: auto; overflow-wrap: break-word;
+}
+.lp-bereich > h3 small { font-size: .82rem; font-weight: 400; letter-spacing: 0; display: block; margin-top: .25rem; opacity: .6; line-height: 1.3; }
+/* Handlungskompetenz: erste Klappebene */
+.hk { border-bottom: 1px solid rgba(17,17,17,.2); }
+.hk-zeile, .lz-zeile {
+  width: 100%; font: inherit; color: inherit; background: none; border: 0; text-align: left; cursor: pointer;
+}
+.hk-zeile { padding: .9rem 0; }
+.hk-zeile .code { font-weight: 700; }
+.hk-zeile .titel { font-weight: 700; line-height: 1.25; }
+.hk-zeile .titel small { display: block; font-weight: 400; font-size: .8rem; opacity: .55; margin-top: .2rem; }
+.hk.offen > .hk-zeile { border-bottom: 1.5px solid var(--schwarz); }
+.hk-inhalt { padding-bottom: 1.2rem; }
+
+/* Leistungsziel: zweite Klappebene */
+.lz { border-bottom: 1px solid rgba(17,17,17,.1); }
+.lz:last-child { border-bottom: 0; }
+.lz-zeile { padding: .6rem 0; }
+.lz-zeile .code { font-variant-numeric: tabular-nums; padding-left: .9rem; }
+.lz-zeile .titel { line-height: 1.3; }
+.hk-zeile:hover .titel, .lz-zeile:hover .titel { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+.hk-zeile, .lz-zeile, .lp-kopf { display: grid; grid-template-columns: 4.2rem 1fr repeat(4, 3.2rem) 2rem; align-items: center; column-gap: .6rem; }
+.j { display: flex; justify-content: center; align-items: center; height: 1.6rem; }
+.punkt { display: block; width: 11px; height: 11px; border-radius: 50%; background: var(--schwarz); }
+.auf { font-size: 1.4rem; line-height: 1; text-align: right; font-weight: 400; }
+.lz.offen > .lz-zeile .titel { font-weight: 700; }
+
+.lp-unter {
+  display: grid; grid-template-columns: 4.2rem 1fr; column-gap: .6rem;
+  font-size: .85rem; padding: 1.4rem 0 .4rem; opacity: .7;
+  border-bottom: 1px solid rgba(17,17,17,.2);
+}
+
+.lz-detail { padding: .2rem 0 1.4rem; }
+.lz-jahr {
+  display: grid; grid-template-columns: 4.2rem 1fr; column-gap: .6rem;
+  padding: .9rem 0; border-top: 1px solid rgba(17,17,17,.1);
+}
+.lz-jahr .lj { grid-column: 2; font-weight: 700; margin-bottom: .5rem; }
+.lz-jahr .inhalte, .lz-jahr .leer { grid-column: 2; max-width: 46em; }
+.inhalte { list-style: none; }
+.inhalte li { padding: .35rem 0; border-top: 1px solid rgba(17,17,17,.1); line-height: 1.4; }
+.inhalte li.verweis { opacity: .55; font-size: .9em; }
+.leer { font-size: .9rem; opacity: .55; }
+mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -.35em 0 var(--pink); }
+.lp-nichts { padding: 3rem 0; opacity: .55; }
+.lp-legende { display: flex; gap: 1.6rem; flex-wrap: wrap; align-items: center; font-size: .8rem; opacity: .7; margin: 1.4rem 0 4rem; }
+.lp-legende span { display: inline-flex; align-items: center; gap: .45rem; }
+
+.fuss b { font-weight: 700; }
+.fuss-links { display: flex; gap: 1.6rem; white-space: nowrap; }
+.fuss a:hover { text-decoration: underline; text-underline-offset: .2em; }
+.fuss {
+  margin-top: auto;
+  padding-top: .7rem;
+  border-top: 1px solid var(--schwarz);
+  display: flex; justify-content: space-between; gap: .5rem 1.6rem; flex-wrap: wrap;
+  font-size: .85rem;
+}
+
+@media (max-width: 760px) {
+  .lp-kopf { display: none; }
+  .hk-zeile, .lz-zeile { grid-template-columns: 2.8rem repeat(4, 1.6rem) 1fr 1.2rem; column-gap: .3rem; row-gap: .35rem; }
+  .hk-zeile .code, .lz-zeile .code { grid-row: 1; grid-column: 1; align-self: start; }
+  .lz-zeile .code { padding-left: .5rem; }
+  .hk-zeile .titel, .lz-zeile .titel { grid-row: 1; grid-column: 2 / 7; }
+  .hk-zeile .auf, .lz-zeile .auf { grid-row: 1; grid-column: 7; align-self: start; }
+  .hk-zeile .j, .lz-zeile .j { grid-row: 2; justify-content: flex-start; height: 1.2rem; }
+  .hk-zeile .j:nth-child(3), .lz-zeile .j:nth-child(3) { grid-column: 2; }
+  .hk-zeile .j:nth-child(4), .lz-zeile .j:nth-child(4) { grid-column: 3; }
+  .hk-zeile .j:nth-child(5), .lz-zeile .j:nth-child(5) { grid-column: 4; }
+  .hk-zeile .j:nth-child(6), .lz-zeile .j:nth-child(6) { grid-column: 5; }
+  .lp-bereich > h3, .lp-unter { grid-template-columns: 2.8rem 1fr; column-gap: .3rem; }
+  .lz-jahr { display: block; }
+  .lp-steuerung { position: static; }
+  .lp-filter { font-size: .95rem; }
+  .lp-filter { gap: .5rem 1.4rem; }
+  .lp-alle { margin-left: 0; }
+}
+
+
+/* Farbcodierung der Handlungskompetenzbereiche: feiner Hintergrundton */
+[data-b="a"] { --f: #d9ad0b; --ft: #9c7c00; --fh: #faf4df; --fhh: #fcf9ee; }  /* Marketing: Gelb */
+[data-b="b"] { --f: #c4453d; --ft: #b03a33; --fh: #f7e7e6; --fhh: #fbf2f1; }  /* Mediengestaltung: Rot */
+[data-b="c"] { --f: #3f8a5a; --ft: #357a4e; --fh: #e6f0ea; --fhh: #f2f7f3; }  /* Typografische Konzepte: Grün */
+[data-b="d"] { --f: #3a6aa8; --ft: #2f5c96; --fh: #e5ecf4; --fhh: #f1f5f9; }  /* Bild und Grafik: Blau */
+[data-b="e"] { --f: #8a5c3e; --ft: #7a5034; --fh: #f0eae6; --fhh: #f7f4f1; }  /* Deutsch: Braun */
+[data-b="f"] { --f: #7c52a3; --ft: #6d4692; --fh: #eee9f3; --fhh: #f6f3f9; }  /* Medienproduktion: Violett */
+.lp-bereich[data-b] > h3 {
+  background: var(--fh);
+  margin: 0 -.8rem; padding: .8rem .8rem .7rem;
+  border-bottom: 1.5px solid var(--f);
+}
+.lp-bereich[data-b] > h3 > span:first-child { color: var(--ft); }
+.hk[data-b].offen > .hk-zeile { border-bottom-color: var(--f); }
+.lp-unter[data-b] {
+  background: var(--fhh);
+  margin: 0 -.8rem; padding: .55rem .8rem .45rem; margin-top: 1rem;
+  border-bottom: 1px solid var(--f); opacity: 1;
+}
+.lp-unter[data-b] b { color: var(--ft); }
+.lp-unter[data-b] strong { font-weight: 700; }
+.lp-unter[data-b] .voll { opacity: .6; margin-left: .5rem; }
+.lp-steuerung button[data-bereich]:not([data-bereich=""]) { color: var(--ft); font-weight: 700; }
+.lp-steuerung button[data-bereich]:not([data-bereich=""])[aria-pressed="true"] { border-bottom-color: var(--f); }
+
+
+/* Verlinktes Lernmaterial */
+.lz-material .material { grid-column: 2; list-style: none; max-width: 46em; }
+.material li { display: flex; align-items: baseline; gap: .8rem; padding: .35rem 0; border-top: 1px solid rgba(17,17,17,.1); }
+.material a { font-weight: 700; text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: 2px; text-underline-offset: .22em; }
+.material a::before { content: "→ "; }
+.material a:hover { text-decoration-color: var(--schwarz); }
+.material span { font-size: .85rem; opacity: .55; }
+.lz-zeile .mat-hinweis { display: block; font-size: .8rem; font-weight: 400; opacity: .7; margin-top: .15rem; }
+.lz-zeile .mat-hinweis::before, .mat-zahl::before { content: ""; display: inline-block; width: .5em; height: .5em; border-radius: 50%; background: var(--pink); margin-right: .35em; vertical-align: .05em; }
+
+/* ================= Justiermodus ================= */
+.justier .brille { cursor: grab; outline: 1px dashed var(--schwarz); outline-offset: 4px; touch-action: none; }
+.justier-info {
+  display: none;
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 99;
+  padding: .8rem var(--rand);
+  background: var(--schwarz); color: var(--weiss);
+  border-top: 2px solid var(--pink);
+  font-size: .9rem; line-height: 1.4;
+}
+.justier .justier-info { display: block; }
+.justier-info code { font-family: ui-monospace, Menlo, monospace; color: var(--pink); user-select: all; }
+
+/* ================= Schmal ================= */
+@media (max-width: 760px) {
+  :root { --rand: 5vw; }
+  .kopfzeile .lang { display: none; }
+  .kopfzeile { font-size: .8rem; }
+  .portrait-ebene { right: 50%; transform: translateX(50%); bottom: auto; top: 9svh; }
+  #raster { height: min(58svh, 128vw); }
+  .wortmarke { font-size: 25vw; }
+  .typo { bottom: 6svh; }
+  .runter span { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brille-flug { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+
+<header class="hero" id="oben">
+  <i class="schnitt lo"></i><i class="schnitt ro"></i><i class="schnitt lu"></i><i class="schnitt ru"></i>
+
+  <div class="kopfzeile">
+    <span><span class="lang">Lernmaterial für </span>Polygrafinnen und Polygrafen&nbsp;EFZ</span>
+  </div>
+
+  <div class="ebene typo" data-tempo="-0.25">
+    <h1 class="wortmarke" aria-label="gautschmi.ch"><span>gautsch</span><span>mi<span class="pkt">.</span>ch</span></h1>
+  </div>
+
+  <div class="ebene portrait-ebene" id="portraitEbene" data-tempo="-0.12">
+    <div class="portrait" id="portrait" title="Nochmal">
+      <canvas id="raster" role="img" aria-label="Johannes Gutenberg als Rasterbild, mit Pixel-Sonnenbrille"></canvas>
+      <div class="brille" id="brille">
+        <div class="brille-flug" id="brilleFlug">
+          <svg viewBox="0 0 26 5" aria-hidden="true">__BRILLE__</svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <a class="runter" href="#lehrplan" aria-label="Weiter nach unten">
+    <svg viewBox="0 0 26 26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1">
+      <circle cx="13" cy="13" r="7"/><path d="M13 0v26M0 13h26"/>
+    </svg>
+    <span>runter</span>
+  </a>
+</header>
+
+<main class="bogen">
+
+  <section class="lehrplan" id="lehrplan">
+    <h2>Handlungskompetenzen<br>und Leistungsziele</h2>
+
+    <div class="lp-steuerung">
+      <div class="lp-filter">
+        <div class="lp-gruppe" role="group" aria-label="Ordnen nach">
+          <span>Ordnen nach</span>
+          <button type="button" data-ordnen="bereich" aria-pressed="true">Bereich</button>
+          <button type="button" data-ordnen="jahr" aria-pressed="false">Lehrjahr</button>
+        </div>
+        <div class="lp-gruppe" role="group" aria-label="Lehrjahr">
+          <span>Lehrjahr</span>
+          <button type="button" data-jahr="" aria-pressed="true">Alle</button>
+          <button type="button" data-jahr="1" aria-pressed="false">1</button>
+          <button type="button" data-jahr="2" aria-pressed="false">2</button>
+          <button type="button" data-jahr="3" aria-pressed="false">3</button>
+          <button type="button" data-jahr="4" aria-pressed="false">4</button>
+        </div>
+        <div class="lp-gruppe" role="group" aria-label="Handlungskompetenzbereich" id="lpBereiche">
+          <span>Bereich</span>
+          <button type="button" data-bereich="" aria-pressed="true">Alle</button>
+        </div>
+        <button type="button" class="lp-alle" id="lpAlle">Alle aufklappen</button>
+      </div>
+      <div class="lp-kopf" aria-hidden="true">
+        <span>Code</span><span>Handlungskompetenz, Leistungsziel</span>
+        <span class="j" data-j="1">1. LJ</span><span class="j" data-j="2">2. LJ</span><span class="j" data-j="3">3. LJ</span><span class="j" data-j="4">4. LJ</span><span></span>
+      </div>
+    </div>
+
+    <div id="lpListe"></div>
+
+    <div class="lp-legende">
+      <span><i class="punkt"></i> im Lehrjahr unterrichtet</span>
+    </div>
+
+
+    <footer class="fuss">
+      <span><b>gautschmi.ch</b> Alle Angaben ohne Gewähr.</span>
+      <span class="fuss-links"><a href="#" id="fehlerMelden">Fehler melden</a><a href="#oben">nach oben</a></span>
+    </footer>
+  </section>
+</main>
+
+<div class="justier-info">
+  Justiermodus: Brille ziehen, Mausrad = Grösse, Q/E = drehen, Pfeiltasten = fein schieben. In <b>:root</b> einsetzen:<br>
+  <code id="justierWerte"></code>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var leise = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var justier = location.hash === "#justieren";
+  var root = document.documentElement;
+  var hero = document.getElementById("oben");
+  var portrait = document.getElementById("portrait");
+  var cv = document.getElementById("raster");
+  var ctx = cv.getContext("2d");
+  var flug = document.getElementById("brilleFlug");
+
+  /* ---------- Rasterung ----------
+     Die Tonwerte des Kupferstichs stecken als vorberechnetes Graustufen-Raster
+     in der Datei (0 = Papier, 255 = volle Farbe). So muss der Browser keine
+     Canvas-Pixel auslesen, was LibreWolf und Firefox mit Fingerprint-Schutz
+     blockieren oder verrauschen. */
+  var GW = __GW__, GH = __GH__;
+  var roh = atob("__TONWERTE__");
+  // Summed-Area-Table: Mittelwert jeder Rasterzelle in konstanter Zeit
+  var sat = new Float64Array((GW + 1) * (GH + 1));
+  for (var gy = 0; gy < GH; gy++) {
+    var zeile = 0;
+    for (var gx = 0; gx < GW; gx++) {
+      zeile += roh.charCodeAt(gy * GW + gx);
+      sat[(gy + 1) * (GW + 1) + gx + 1] = sat[gy * (GW + 1) + gx + 1] + zeile;
+    }
+  }
+  function mittel(x0, y0, x1, y1) {
+    x0 = Math.max(0, Math.min(GW, Math.floor(x0))); x1 = Math.max(x0 + 1, Math.min(GW, Math.ceil(x1)));
+    y0 = Math.max(0, Math.min(GH, Math.floor(y0))); y1 = Math.max(y0 + 1, Math.min(GH, Math.ceil(y1)));
+    if (x0 >= GW || y0 >= GH) return 0;
+    var B = GW + 1;
+    return (sat[y1 * B + x1] - sat[y0 * B + x1] - sat[y1 * B + x0] + sat[y0 * B + x0]) / ((x1 - x0) * (y1 - y0) * 255);
+  }
+
+  var letzteZelle = 0, letzteBreite = 0, letzteUnten = 0;
+  function rastern(zelle) {
+    zelle = Math.round(zelle * 4) / 4;
+    var r = cv.getBoundingClientRect(), w = r.width, h = r.height;
+    if (!w || !h) return;
+    // Unterkante des pinken Bereichs im Bild: dort laufen die Punkte weich aus statt hart abgeschnitten
+    var unten = Math.min(h, Math.round(hero.getBoundingClientRect().bottom - r.top));
+    var auslauf = h * 0.3;
+    if (zelle === letzteZelle && w === letzteBreite && unten === letzteUnten) return;
+    letzteZelle = zelle; letzteBreite = w; letzteUnten = unten;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    var cos = Math.SQRT1_2, sin = Math.SQRT1_2, schmal = window.innerWidth < 760;
+    var cx = w / 2, cy = h / 2, n = Math.ceil(Math.hypot(w, h) / 2 / zelle);
+    var sx = GW / w, sy = GH / h, halb = zelle * 0.5;
+    ctx.fillStyle = "#111111";
+    ctx.beginPath();
+    for (var i = -n; i <= n; i++) {
+      for (var j = -n; j <= n; j++) {
+        var x = cx + (i * cos - j * sin) * zelle;
+        var y = cy + (i * sin + j * cos) * zelle;
+        if (x < 0 || y < 0 || x >= w || y >= h) continue;
+        var dunkel = mittel((x - halb) * sx, (y - halb) * sy, (x + halb) * sx, (y + halb) * sy);
+        // seitlich weich auslaufen lassen, unten läuft das Bild aus dem Format
+        var ex = Math.abs(x / w - 0.5) / 0.5;
+        var rand = ex < 0.78 ? 1 : 1 - (ex - 0.78) / 0.22;
+        if (schmal) { var ey = y / h; if (ey > 0.8) rand *= Math.max(0, 1 - (ey - 0.8) / 0.2); }
+        if (y > unten - auslauf) rand *= Math.max(0, (unten - y) / auslauf);
+        dunkel *= rand * rand;
+        var rad = zelle * 0.72 * Math.sqrt(dunkel);
+        if (rad < 0.35) continue;
+        ctx.moveTo(x + rad, y);
+        ctx.arc(x, y, rad, 0, 6.2832);
+      }
+    }
+    ctx.fill();
+  }
+
+  function basisZelle() { return window.innerWidth < 760 ? 6 : 8; }
+  function zelleFuerScroll() {
+    var p = leise ? 0 : Math.min(1, Math.max(0, window.scrollY / hero.offsetHeight));
+    return basisZelle() * (1 + 6 * Math.pow(p, 1.8));
+  }
+
+  /* ---------- Brille ---------- */
+  var anim = null;
+  function fallen() {
+    if (justier) return;
+    if (leise) { flug.style.opacity = 1; return; }
+    if (anim) anim.cancel();
+    anim = flug.animate([
+      { transform: "translateY(-115vh) rotate(-360deg)", opacity: 1 },
+      { transform: "translateY(0) rotate(0deg)", opacity: 1 }
+    ], { duration: 2600, delay: 700, easing: "steps(36, end)", fill: "forwards" });
+  }
+  var gestartet = false;
+  function starten() { if (gestartet) return; gestartet = true; fallen(); }
+  setTimeout(starten, 3000);
+  portrait.addEventListener("click", function () { if (!justier) fallen(); });
+
+  /* ---------- Parallax ---------- */
+  var ebenen = [].slice.call(document.querySelectorAll("[data-tempo]"));
+  var portraitEbene = document.getElementById("portraitEbene");
+  var tick = false;
+
+  function rahmen() {
+    tick = false;
+    var y = window.scrollY, h = window.innerHeight;
+    if (y < hero.offsetHeight * 1.1) {
+      var schmal = window.innerWidth < 760;
+      for (var i = 0; i < ebenen.length; i++) {
+        var t = "translate3d(0," + (y * parseFloat(ebenen[i].dataset.tempo)).toFixed(1) + "px,0)";
+        if (schmal && ebenen[i] === portraitEbene) t = "translateX(50%) " + t;
+        ebenen[i].style.transform = t;
+      }
+      rastern(zelleFuerScroll());
+    }
+  }
+  function anfordern() { if (!tick) { tick = true; requestAnimationFrame(rahmen); } }
+
+  window.addEventListener("resize", function () { letzteZelle = 0; anfordern(); });
+  if (!leise) window.addEventListener("scroll", anfordern, { passive: true });
+  rahmen();
+
+  /* ---------- Justiermodus (#justieren) ---------- */
+  if (justier) {
+    document.body.classList.add("justier");
+    flug.style.opacity = 1;
+    var brille = document.getElementById("brille");
+    var werte = document.getElementById("justierWerte");
+    var cs = getComputedStyle(root);
+    var w = {
+      bx: parseFloat(cs.getPropertyValue("--bx")), by: parseFloat(cs.getPropertyValue("--by")),
+      bw: parseFloat(cs.getPropertyValue("--bw")), br: parseFloat(cs.getPropertyValue("--br"))
+    };
+    var setzen = function () {
+      root.style.setProperty("--bx", w.bx.toFixed(1) + "%");
+      root.style.setProperty("--by", w.by.toFixed(1) + "%");
+      root.style.setProperty("--bw", w.bw.toFixed(1) + "%");
+      root.style.setProperty("--br", w.br.toFixed(1) + "deg");
+      werte.textContent = "--bx: " + w.bx.toFixed(1) + "%; --by: " + w.by.toFixed(1) + "%; --bw: " + w.bw.toFixed(1) + "%; --br: " + w.br.toFixed(1) + "deg;";
+    };
+    var ziehen = null;
+    brille.addEventListener("pointerdown", function (e) {
+      e.preventDefault(); brille.setPointerCapture(e.pointerId);
+      ziehen = { x: e.clientX, y: e.clientY, bx: w.bx, by: w.by };
+    });
+    brille.addEventListener("pointermove", function (e) {
+      if (!ziehen) return;
+      var b = portrait.getBoundingClientRect();
+      w.bx = ziehen.bx + (e.clientX - ziehen.x) / b.width * 100;
+      w.by = ziehen.by + (e.clientY - ziehen.y) / b.height * 100;
+      setzen();
+    });
+    brille.addEventListener("pointerup", function () { ziehen = null; });
+    portrait.addEventListener("wheel", function (e) {
+      e.preventDefault(); w.bw = Math.max(5, w.bw - Math.sign(e.deltaY) * 0.5); setzen();
+    }, { passive: false });
+    window.addEventListener("keydown", function (e) {
+      var k = e.key.toLowerCase(), s = e.shiftKey ? 1 : 0.2;
+      if (k === "q") w.br -= 0.5; else if (k === "e") w.br += 0.5;
+      else if (k === "arrowleft") w.bx -= s; else if (k === "arrowright") w.bx += s;
+      else if (k === "arrowup") w.by -= s; else if (k === "arrowdown") w.by += s;
+      else return;
+      e.preventDefault(); setzen();
+    });
+    setzen();
+  }
+
+  /* ---------- Los ---------- */
+  rastern(zelleFuerScroll());
+  starten();
+})();
+
+/* ================= Lehrplan ================= */
+(function () {
+  "use strict";
+  var DATEN = __LEHRPLAN__;
+  var MATERIAL = __MATERIALIEN__;
+  function materialVon(lz, nurJahr) {
+    var f = nurJahr || zustand.jahr;
+    return MATERIAL.filter(function (m) {
+      return (m.leistungsziele || []).indexOf(lz.code) >= 0 &&
+        (!f || !m.lehrjahre || !m.lehrjahre.length || m.lehrjahre.indexOf(Number(f)) >= 0);
+    });
+  }
+  function anzahlMaterial(n) { return n === 1 ? "1 Material" : n + " Materialien"; }
+  var KURZ = { a: "Marketing", b: "Mediengestaltung", c: "Typografische Konzepte", d: "Bild und Grafik", e: "Deutsch", f: "Medienproduktion" };
+  var zustand = { ordnen: "bereich", jahr: "", bereich: "", suche: "", hk: {}, lz: {} };
+  var liste = document.getElementById("lpListe");
+
+
+  var bereichGruppe = document.getElementById("lpBereiche");
+  Object.keys(DATEN.bereiche).forEach(function (b) {
+    var k = document.createElement("button");
+    k.type = "button"; k.dataset.bereich = b; k.dataset.b = b; k.setAttribute("aria-pressed", "false");
+    k.textContent = b; k.title = DATEN.bereiche[b];
+    bereichGruppe.appendChild(k);
+  });
+
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function markieren(t) {
+    var h = esc(t);
+    if (!zustand.suche) return h;
+    var q = esc(zustand.suche).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return h.replace(new RegExp("(" + q + ")", "gi"), "<mark>$1</mark>");
+  }
+
+  function jahreVon(lz, nurJahr) {
+    var f = nurJahr || zustand.jahr;
+    return Object.keys(lz.jahre).filter(function (j) { return !f || j === f; });
+  }
+  function trifftSuche(lz, nurJahr) {
+    if (!zustand.suche) return true;
+    var q = zustand.suche.toLowerCase();
+    if ((lz.code + " " + lz.titel).toLowerCase().indexOf(q) >= 0) return true;
+    return jahreVon(lz, nurJahr).some(function (j) {
+      var y = lz.jahre[j];
+      return (y.inhalte || []).some(function (z) { return z.text.toLowerCase().indexOf(q) >= 0; });
+    });
+  }
+  function passt(lz, nurJahr) {
+    if (zustand.bereich && lz.bereich !== zustand.bereich) return false;
+    if (!jahreVon(lz, nurJahr).length) return false;
+    return trifftSuche(lz, nurJahr);
+  }
+
+  function punkte(jahre) {
+    return [1, 2, 3, 4].map(function (j) {
+      j = String(j);
+      var aus = zustand.jahr && j !== zustand.jahr ? " aus" : "";
+      var inhalt = "";
+      if (jahre[j]) inhalt = '<i class="punkt" title="' + j + '. Lehrjahr"></i>';
+      return '<span class="j' + aus + '">' + inhalt + '</span>';
+    }).join("");
+  }
+
+  function detail(lz, nurJahr) {
+    var mat = materialVon(lz, nurJahr).map(function (m) {
+      return '<li><a href="' + esc(m.pfad) + '">' + esc(m.titel) + '</a>' + (m.art ? ' <span>' + esc(m.art) + '</span>' : '') + '</li>';
+    }).join("");
+    return (mat ? '<div class="lz-jahr lz-material"><b class="lj">Material</b><ul class="material">' + mat + '</ul></div>' : '') +
+      jahreVon(lz, nurJahr).map(function (j) {
+      var inhalte = (lz.jahre[j].inhalte || []).map(function (i) { return '<li' + (/^(Wird |Hinweis)/.test(i.text) ? ' class="verweis"' : '') + '>' + markieren(i.text) + '</li>'; }).join("");
+      return '<div class="lz-jahr"><b class="lj">' + j + '. Lehrjahr</b>' +
+        (inhalte ? '<ul class="inhalte">' + inhalte + '</ul>' : '<p class="leer">Keine Inhalte aufgeführt.</p>') + '</div>';
+    }).join("");
+  }
+
+  function lzZeile(lz, nurJahr) {
+    var key = (nurJahr || "") + ":" + lz.code;
+    var offen = !!zustand.lz[key];
+    return '<div class="lz' + (offen ? ' offen' : '') + '">' +
+      '<button type="button" class="lz-zeile" data-lz="' + key + '" aria-expanded="' + offen + '">' +
+      '<span class="code">' + lz.code + '</span><span class="titel">' + markieren(lz.titel) +
+      (function (n) { return n ? '<small class="mat-hinweis">' + anzahlMaterial(n) + '</small>' : ''; })(materialVon(lz, nurJahr).length) + '</span>' +
+      punkte(lz.jahre) +
+      '<span class="auf" aria-hidden="true">' + (offen ? '–' : '+') + '</span></button>' +
+      (offen ? '<div class="lz-detail">' + detail(lz, nurJahr) + '</div>' : '') + '</div>';
+  }
+
+  function hkBlock(hk, lzs, nurJahr) {
+    var key = (nurJahr || "") + ":" + hk;
+    var offen = !!zustand.hk[key];
+    var jahre = {};
+    lzs.forEach(function (lz) { for (var j in lz.jahre) jahre[j] = true; });
+    return '<div class="hk' + (offen ? ' offen' : '') + '" data-b="' + hk[0] + '">' +
+      '<button type="button" class="hk-zeile" data-hk="' + key + '" aria-expanded="' + offen + '">' +
+      '<span class="code">' + hk + '</span><span class="titel">' + esc(DATEN.hks[hk] || "") +
+      '<small>' + lzs.length + (lzs.length === 1 ? ' Leistungsziel' : ' Leistungsziele') +
+      (function (n) { return n ? ', <span class="mat-zahl">' + anzahlMaterial(n) + '</span>' : ''; })(lzs.reduce(function (s_, lz) { return s_ + materialVon(lz, nurJahr).length; }, 0)) +
+      '</small></span>' +
+      punkte(jahre) +
+      '<span class="auf" aria-hidden="true">' + (offen ? '–' : '+') + '</span></button>' +
+      (offen ? '<div class="hk-inhalt">' + lzs.map(function (lz) { return lzZeile(lz, nurJahr); }).join("") + '</div>' : '') +
+      '</div>';
+  }
+
+  function nachHk(lzs) {
+    var gruppen = [], idx = {};
+    lzs.forEach(function (lz) {
+      if (!(lz.hk in idx)) { idx[lz.hk] = gruppen.length; gruppen.push({ hk: lz.hk, lzs: [] }); }
+      gruppen[idx[lz.hk]].lzs.push(lz);
+    });
+    return gruppen;
+  }
+
+  // sichtbare Gruppen, damit "Alle aufklappen" und die Suche wissen, was es gibt
+  var sichtbar = [];
+
+  function zeichnen() {
+    var html = "";
+    sichtbar = [];
+    if (zustand.ordnen === "bereich") {
+      var treffer = DATEN.lz.filter(function (lz) { return passt(lz); });
+      Object.keys(DATEN.bereiche).forEach(function (b) {
+        var inB = treffer.filter(function (lz) { return lz.bereich === b; });
+        if (!inB.length) return;
+        html += '<div class="lp-bereich" data-b="' + b + '"><h3><span>' + b + '</span><span>' + KURZ[b] + '<small>' + esc(DATEN.bereiche[b]) + '</small></span></h3>';
+        nachHk(inB).forEach(function (g) {
+          sichtbar.push({ hk: ":" + g.hk, lzs: g.lzs.map(function (lz) { return ":" + lz.code; }) });
+          html += hkBlock(g.hk, g.lzs, "");
+        });
+        html += '</div>';
+      });
+    } else {
+      ["1", "2", "3", "4"].forEach(function (j) {
+        if (zustand.jahr && zustand.jahr !== j) return;
+        var inJ = DATEN.lz.filter(function (lz) { return lz.jahre[j] && passt(lz, j); });
+        if (!inJ.length) return;
+        html += '<div class="lp-bereich"><h3><span>' + j + '.</span><span>Lehrjahr<small>' + inJ.length + ' Leistungsziele</small></span></h3>';
+        var b = null;
+        nachHk(inJ).forEach(function (g) {
+          if (g.hk[0] !== b) {
+            b = g.hk[0];
+            html += '<div class="lp-unter" data-b="' + b + '"><b>' + b + '</b><span><strong>' + KURZ[b] + '</strong> <span class="voll">' + esc(DATEN.bereiche[b]) + '</span></span></div>';
+          }
+          sichtbar.push({ hk: j + ":" + g.hk, lzs: g.lzs.map(function (lz) { return j + ":" + lz.code; }) });
+          html += hkBlock(g.hk, g.lzs, j);
+        });
+        html += '</div>';
+      });
+    }
+    liste.innerHTML = html || '<p class="lp-nichts">Nichts gefunden.</p>';
+    document.querySelectorAll(".lp-kopf .j").forEach(function (k) {
+      k.classList.toggle("aus", !!zustand.jahr && k.dataset.j !== zustand.jahr);
+    });
+    document.getElementById("lpAlle").textContent = alleOffen() ? "Alle zuklappen" : "Alle aufklappen";
+  }
+  function alleOffen() {
+    return sichtbar.length && sichtbar.every(function (g) {
+      return zustand.hk[g.hk] && g.lzs.every(function (k) { return zustand.lz[k]; });
+    });
+  }
+
+  liste.addEventListener("click", function (e) {
+    var hk = e.target.closest(".hk-zeile"), lz = e.target.closest(".lz-zeile");
+    if (lz) zustand.lz[lz.dataset.lz] = !zustand.lz[lz.dataset.lz];
+    else if (hk) zustand.hk[hk.dataset.hk] = !zustand.hk[hk.dataset.hk];
+    else return;
+    var key = lz ? "lz" : "hk", wert = (lz || hk).dataset[key];
+    zeichnen();
+    var neu = liste.querySelector('[data-' + key + '="' + wert + '"]');
+    if (neu) neu.focus({ preventScroll: true });
+  });
+
+  document.querySelector(".lp-steuerung").addEventListener("click", function (e) {
+    var k = e.target.closest("button");
+    if (!k) return;
+    if (k.id === "lpAlle") {
+      var zu = alleOffen();
+      sichtbar.forEach(function (g) {
+        zustand.hk[g.hk] = !zu;
+        g.lzs.forEach(function (key) { zustand.lz[key] = !zu; });
+      });
+    } else if ("ordnen" in k.dataset) zustand.ordnen = k.dataset.ordnen;
+    else if ("jahr" in k.dataset) zustand.jahr = k.dataset.jahr;
+    else if ("bereich" in k.dataset) zustand.bereich = k.dataset.bereich;
+    else return;
+    ["ordnen", "jahr", "bereich"].forEach(function (f) {
+      document.querySelectorAll(".lp-steuerung [data-" + f + "]").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset[f] === zustand[f]));
+      });
+    });
+    zeichnen();
+  });
+
+  zeichnen();
+})();
+
+/* Fehler melden: Adresse erst beim Klick zusammensetzen, damit sie nicht im Quelltext steht */
+document.getElementById("fehlerMelden").addEventListener("click", function (e) {
+  e.preventDefault();
+  var a = ["hc.zgfs", "lebonkocram"].map(function (t) { return t.split("").reverse().join(""); });
+  location.href = "mailto:" + a[1] + String.fromCharCode(64) + a[0] + "?subject=" + encodeURIComponent("Fehler auf gautschmi.ch");
+});
+</script>
+</body>
+</html>
