@@ -15,7 +15,7 @@
 document.querySelectorAll(".gm-fehler").forEach(function (a) {
   a.addEventListener("click", function (e) {
     e.preventDefault();
-    var t = ["hc.zgfs", "lebonkocram"].map(function (s) { return s.split("").reverse().join(""); });
+    var t = ["hc.zgfs", "lebonk.ocram"].map(function (s) { return s.split("").reverse().join(""); });
     location.href = "mailto:" + t[1] + String.fromCharCode(64) + t[0] + "?subject=" + encodeURIComponent("Fehler auf gautschmi.ch: " + document.title);
   });
 });

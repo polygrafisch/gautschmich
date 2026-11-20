@@ -392,7 +392,7 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
 
     <footer class="fuss">
       <span><b>gautschmi.ch</b> Alle Angaben ohne Gewähr. Es gelten die jeweiligen Schullehrpläne.</span>
-      <span class="fuss-links"><a href="#" id="fehlerMelden">Fehler melden</a><a href="#oben">nach oben</a></span>
+      <span class="fuss-links"><a href="#" id="fehlerMelden">Fehler melden</a><a href="#" id="nachOben">nach oben</a></span>
     </footer>
   </section>
 </main>
@@ -771,10 +771,16 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
   zeichnen();
 })();
 
+/* Nach oben: der pinke Kopfbereich klebt oben, ein Sprung zum Anker reicht deshalb nicht */
+document.getElementById("nachOben").addEventListener("click", function (e) {
+  e.preventDefault();
+  var leise = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.scrollTo({ top: 0, behavior: leise ? "auto" : "smooth" });
+});
 /* Fehler melden: Adresse erst beim Klick zusammensetzen, damit sie nicht im Quelltext steht */
 document.getElementById("fehlerMelden").addEventListener("click", function (e) {
   e.preventDefault();
-  var a = ["hc.zgfs", "lebonkocram"].map(function (t) { return t.split("").reverse().join(""); });
+  var a = ["hc.zgfs", "lebonk.ocram"].map(function (t) { return t.split("").reverse().join(""); });
   location.href = "mailto:" + a[1] + String.fromCharCode(64) + a[0] + "?subject=" + encodeURIComponent("Fehler auf gautschmi.ch");
 });
 </script>
