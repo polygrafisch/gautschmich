@@ -285,12 +285,12 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
 .lz-mat { grid-column: 3; grid-row: 1 / span 2; }
 .lz-mat .material { list-style: none; }
 .material li { display: flex; align-items: baseline; gap: .8rem; padding: .35rem 0; border-top: 1px solid rgba(17,17,17,.1); }
-.material a { font-weight: 700; text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: 2px; text-underline-offset: .22em; }
+.material a { font-weight: 700; text-decoration: underline; text-decoration-color: var(--f, var(--pink)); text-decoration-thickness: 2px; text-underline-offset: .22em; }
 .material a::before { content: "→ "; }
 .material a:hover { text-decoration-color: var(--schwarz); }
 .material span { font-size: .85rem; opacity: .55; }
 .lz-zeile .mat-hinweis { display: block; font-size: .8rem; font-weight: 400; opacity: .7; margin-top: .15rem; }
-.lz-zeile .mat-hinweis::before, .mat-zahl::before { content: ""; display: inline-block; width: .5em; height: .5em; border-radius: 50%; background: var(--pink); margin-right: .35em; vertical-align: .05em; }
+.lz-zeile .mat-hinweis::before, .mat-zahl::before { content: ""; display: inline-block; width: .5em; height: .5em; border-radius: 50%; background: var(--f, var(--pink)); margin-right: .35em; vertical-align: .05em; }
 
 /* ================= Justiermodus ================= */
 .justier .brille { cursor: grab; outline: 1px dashed var(--schwarz); outline-offset: 4px; touch-action: none; }
