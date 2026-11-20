@@ -43,7 +43,7 @@ Material zu einem Bereich darf dessen Farbe dezent als Akzent verwenden: Linie, 
 - Keine Canvas-Pixel auslesen (getImageData). LibreWolf und Firefox mit Fingerprint-Schutz blockieren das. Daten lieber beim Erstellen vorberechnen.
 - Mobil tauglich (ab 360 px Breite), Tastatur bedienbar, prefers-reduced-motion respektieren.
 - Browser-Speicher (localStorage) nur für Kleinigkeiten wie Spielstand, immer mit try/catch.
-- Fusszeile: «**gautschmi.ch** Alle Angaben ohne Gewähr. Es gelten die jeweiligen Schullehrpläne.», Link zurück zur Startseite und «Fehler melden». Die Mailadresse erst beim Klick per JavaScript zusammensetzen, damit Bots sie nicht finden. Sie darf nie im Quelltext stehen.
+- Fusszeile: Jedes Lernmaterial endet mit dem Baustein `quellen/fusszeile.html`, unverändert übernommen (HTML, CSS und Skript). Er enthält «**gautschmi.ch** Alle Angaben ohne Gewähr. Es gelten die jeweiligen Schullehrpläne.», «Fehler melden» und «zurück zu gautschmi.ch». Die Mailadresse wird erst beim Klick per JavaScript zusammengesetzt und darf nie im Quelltext stehen. Der Betreff enthält automatisch den Seitentitel (`<title>`), darum jedem Material einen treffenden Titel geben.
 
 ## Aufbau des Repositorys
 ```
@@ -68,7 +68,7 @@ CNAME                 Domain gautschmi.ch für GitHub Pages
 4. Im Browser prüfen: Das Material erscheint beim aufgeklappten Leistungsziel unter «Material».
 5. Commit mit kurzer deutscher Nachricht, dann push auf `main`. GitHub Pages veröffentlicht automatisch.
 
-Im Material selbst gehört ein Link zurück zur Startseite (`../../`) in die Fusszeile.
+Ans Ende jedes Materials gehört der Baustein `quellen/fusszeile.html` (siehe Technik).
 
 ## Grundlage
 Schullehrplan Polygrafin/Polygraf EFZ der SfG Zürich, Version 4.1.2026, ohne Blocktage. Die Daten in `quellen/lehrplan.json` wurden aus dem PDF ausgelesen und von Hand bereinigt.
