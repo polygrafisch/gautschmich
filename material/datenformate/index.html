@@ -38,7 +38,9 @@ header.top h1 .zusatz { display: inline-block; font-size: max(15px, .4em); font-
 
 /* Navigation */
 nav.tabs { display: flex; flex-wrap: wrap; gap: 6px 28px; margin: 14px 0 36px; }
-nav.tabs a { color: var(--hilf); text-decoration: none; font-weight: 700; padding: 6px 0; border-bottom: 1.5px solid transparent; }
+nav.tabs a { display: inline-flex; align-items: center; gap: 8px; color: var(--hilf); text-decoration: none; font-weight: 700; padding: 6px 0; border-bottom: 1.5px solid transparent; }
+nav.tabs .ico { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+nav.tabs a[aria-current="page"] .ico, nav.tabs a:hover .ico { stroke: var(--f-text); }
 nav.tabs a:hover { color: var(--schwarz); }
 nav.tabs a[aria-current="page"] { color: var(--schwarz); border-bottom-color: var(--f-linie); }
 
@@ -138,10 +140,10 @@ h3.zwischen { font-size: 1.15rem; font-weight: 700; margin: 0 0 6px; }
   <p class="hilf">Repetition für das 2. Lehrjahr</p>
 </header>
 <nav class="tabs" aria-label="Übungen">
-  <a href="#karten" data-view="karten">Lernkarten</a>
-  <a href="#sortieren" data-view="sortieren">Sortieren</a>
-  <a href="#formatwahl" data-view="formatwahl">Praxissituationen</a>
-  <a href="#test" data-view="test">Selbsttest</a>
+  <a href="#karten" data-view="karten"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="7" width="14" height="13" rx="1.5"/><path d="M7 4h12.5A1.5 1.5 0 0 1 21 5.5V16"/></svg>Lernkarten</a>
+  <a href="#sortieren" data-view="sortieren"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.5 20V4M3.5 8l4-4 4 4M16.5 4v16M12.5 16l4 4 4-4"/></svg>Sortieren</a>
+  <a href="#formatwahl" data-view="formatwahl"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="7" width="18" height="13" rx="1.5"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 12.5h18"/></svg>Praxissituationen</a>
+  <a href="#test" data-view="test"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="1.5"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>Selbsttest</a>
 </nav>
 
 <section id="v-start">
