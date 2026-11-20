@@ -43,7 +43,7 @@ Material zu einem Bereich darf dessen Farbe dezent als Akzent verwenden: Linie, 
 - Keine Canvas-Pixel auslesen (getImageData). LibreWolf und Firefox mit Fingerprint-Schutz blockieren das. Daten lieber beim Erstellen vorberechnen.
 - Mobil tauglich (ab 360 px Breite), Tastatur bedienbar, prefers-reduced-motion respektieren.
 - Browser-Speicher (localStorage) nur für Kleinigkeiten wie Spielstand, immer mit try/catch.
-- Fusszeile: «**gautschmi.ch** Alle Angaben ohne Gewähr.», Link zurück zur Startseite und «Fehler melden». Die Mailadresse erst beim Klick per JavaScript zusammensetzen, damit Bots sie nicht finden. Sie darf nie im Quelltext stehen.
+- Fusszeile: «**gautschmi.ch** Alle Angaben ohne Gewähr. Es gelten die jeweiligen Schullehrpläne.», Link zurück zur Startseite und «Fehler melden». Die Mailadresse erst beim Klick per JavaScript zusammensetzen, damit Bots sie nicht finden. Sie darf nie im Quelltext stehen.
 
 ## Aufbau des Repositorys
 ```
