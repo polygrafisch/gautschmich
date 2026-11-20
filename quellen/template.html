@@ -124,7 +124,9 @@ a { color: inherit; text-decoration: none; }
   background: var(--weiss);
   color: var(--schwarz);
   min-height: 110vh;
-  padding: 10vh var(--rand) 3vh;
+  /* Inhalt höchstens 1200 px breit, auf grossen Bildschirmen bleibt links und rechts Weiss */
+  --seite: max(var(--rand), calc((100% - 1200px) / 2));
+  padding: 10vh var(--seite) 3vh;
   display: flex; flex-direction: column;
 }
 .lehrplan h2 {
