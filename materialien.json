@@ -20,5 +20,16 @@
     "lehrjahre": [
       1
     ]
+  },
+  {
+    "titel": "Lückentext Freistellen I",
+    "pfad": "https://wordwall.net/de/resource/123960730?wwmethod=link",
+    "art": "Lückentext",
+    "leistungsziele": [
+      "d2.4"
+    ],
+    "lehrjahre": [
+      1
+    ]
   }
 ]
