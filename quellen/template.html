@@ -838,6 +838,28 @@ document.getElementById("nachOben").addEventListener("click", function (e) {
   var leise = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   window.scrollTo({ top: 0, behavior: leise ? "auto" : "smooth" });
 });
+/* Runter: sanft zum Lehrplan gleiten statt springen */
+document.querySelector(".runter").addEventListener("click", function (e) {
+  var ziel = document.getElementById("lehrplan");
+  if (!ziel) return;
+  e.preventDefault();
+  var start = window.scrollY, ende = ziel.getBoundingClientRect().top + window.scrollY, weg = ende - start;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || Math.abs(weg) < 2) { window.scrollTo(0, ende); return; }
+  var dauer = 1200, t0 = null, aus = false;
+  function stopp() { aus = true; }
+  window.addEventListener("wheel", stopp, { once: true, passive: true });
+  window.addEventListener("touchstart", stopp, { once: true, passive: true });
+  function weich(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function schritt(jetzt) {
+    if (aus) return;
+    if (t0 === null) t0 = jetzt;
+    var t = Math.min(1, (jetzt - t0) / dauer);
+    window.scrollTo(0, start + weg * weich(t));
+    if (t < 1) requestAnimationFrame(schritt);
+    else { window.removeEventListener("wheel", stopp); window.removeEventListener("touchstart", stopp); }
+  }
+  requestAnimationFrame(schritt);
+});
 /* Fehler melden: Adresse erst beim Klick zusammensetzen, damit sie nicht im Quelltext steht */
 document.getElementById("fehlerMelden").addEventListener("click", function (e) {
   e.preventDefault();
