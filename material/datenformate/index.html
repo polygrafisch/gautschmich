@@ -135,7 +135,7 @@ h3.zwischen { font-size: 1.15rem; font-weight: 700; margin: 0 0 6px; }
 <header class="top">
   <div class="kopfzeile">
   <p class="kenn"><b>f</b> Produzieren von Print- und Screenmedien, Leistungsziel f2.4</p>
-    <a class="heim" href="https://gautschmi.ch/">zurück zu gautschmi<span class="gm-pkt">.</span>ch</a>
+    <a class="heim" href="https://gautschmi.ch/">zurück zu gautschmich</a>
   </div>
   <h1>Datenformate üben <span class="zusatz">(ohne Audio/Video)</span></h1>
   <p class="hilf">Repetition für das 2. Lehrjahr</p>
@@ -212,24 +212,26 @@ h3.zwischen { font-size: 1.15rem; font-weight: 700; margin: 0 0 6px; }
 
 <!-- gautschmi.ch Fusszeile: unverändert ans Ende jedes Lernmaterials setzen (innerhalb des Seitenrands, vor </body>) -->
 <footer class="gm-fuss">
-  <span><b>gautschmi<span class="gm-pkt">.</span>ch</b> Alle Angaben ohne Gewähr. Es gelten die jeweiligen Schullehrpläne.</span>
-  <span class="gm-fuss-links"><a href="#" class="gm-fehler">Fehler melden</a><a href="https://gautschmi.ch/">zurück zu gautschmi<span class="gm-pkt">.</span>ch</a></span>
+  <span><b>gautschmich</b> Alle Angaben ohne Gewähr. Es gelten die jeweiligen Schullehrpläne.</span>
+  <span class="gm-fuss-links"><a href="#" class="gm-beitrag">Inhalte beitragen</a><a href="#" class="gm-fehler">Fehler melden</a><a href="https://gautschmi.ch/">zurück zu gautschmich</a></span>
 </footer>
 <style>
 .gm-fuss { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem 1.6rem; margin-top: 4rem; padding: .7rem 0 1.5rem; border-top: 1px solid currentColor; font-size: .85rem; line-height: 1.5; }
 .gm-fuss b { font-weight: 700; }
-.gm-pkt { font-size: .7em; opacity: .5; }
-.gm-fuss-links { display: flex; gap: 1.6rem; white-space: nowrap; }
+.gm-fuss-links { display: flex; flex-wrap: wrap; gap: .3rem 1.6rem; }
+.gm-fuss-links a { white-space: nowrap; }
 .gm-fuss a { color: inherit; text-decoration: none; }
 .gm-fuss a:hover { text-decoration: underline; text-underline-offset: .2em; }
 </style>
 <script>
 /* Mailadresse erst beim Klick zusammensetzen, damit Bots sie nicht im Quelltext finden */
-document.querySelectorAll(".gm-fehler").forEach(function (a) {
-  a.addEventListener("click", function (e) {
-    e.preventDefault();
-    var t = ["hc.zgfs", "lebonk.ocram"].map(function (s) { return s.split("").reverse().join(""); });
-    location.href = "mailto:" + t[1] + String.fromCharCode(64) + t[0] + "?subject=" + encodeURIComponent("Fehler auf gautschmi.ch: " + document.title);
+[[".gm-fehler", "Fehler auf gautschmi.ch: "], [".gm-beitrag", "Inhalte beitragen für gautschmi.ch: "]].forEach(function (z) {
+  document.querySelectorAll(z[0]).forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      var t = ["hc.zgfs", "lebonk.ocram"].map(function (s) { return s.split("").reverse().join(""); });
+      location.href = "mailto:" + t[1] + String.fromCharCode(64) + t[0] + "?subject=" + encodeURIComponent(z[1] + document.title);
+    });
   });
 });
 </script>
