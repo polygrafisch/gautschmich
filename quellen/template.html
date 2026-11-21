@@ -693,7 +693,9 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
     return jahreVon(lz, nurJahr).map(function (j) {
       var inhalte = (lz.jahre[j].inhalte || []).map(function (i) { return '<li' + (/^(Wird |Hinweis)/.test(i.text) ? ' class="verweis"' : '') + '>' + markieren(i.text) + '</li>'; }).join("");
       var mat = materialVon(lz, j).map(function (m) {
-        return '<li><a href="' + esc(m.pfad) + '">' + esc(m.titel) + '</a>' + (m.art ? ' <span>' + esc(m.art) + '</span>' : '') + '</li>';
+        var extern = /^https?:/.test(m.pfad);
+        return '<li><a href="' + esc(m.pfad) + '"' + (extern ? ' target="_blank" rel="noopener"' : '') + '>' + esc(m.titel) +
+          (extern ? '<span class="ext" aria-label="(öffnet in neuem Tab)"> ↗</span>' : '') + '</a>' + (m.art ? ' <span>' + esc(m.art) + '</span>' : '') + '</li>';
       }).join("");
       return '<div class="lz-jahr' + (mat ? ' mit-material' : '') + '"><b class="lj">' + j + '. Lehrjahr</b>' +
         (inhalte ? '<ul class="inhalte">' + inhalte + '</ul>' : '<p class="leer">Keine Inhalte aufgeführt.</p>') +

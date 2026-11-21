@@ -65,6 +65,7 @@ CNAME                 Domain gautschmi.ch für GitHub Pages
    { "titel": "Satzspiegel-Quiz", "pfad": "material/satzspiegel-quiz/", "art": "Lernspiel",
      "leistungsziele": ["c2.1"], "lehrjahre": [2] }
    ```
+   Externe Materialien (z. B. Gimkit, Kahoot) bekommen als `pfad` die volle URL (`https://…`). Die Startseite öffnet sie dann in einem neuen Tab und zeigt ↗ an.
    `leistungsziele` gemäss `quellen/lehrplan.json`. `lehrjahre` darf leer sein, dann erscheint das Material in allen Lehrjahren des Leistungsziels.
 3. Startseite neu bauen: `python3 quellen/build.py` (braucht Pillow und numpy).
 4. Im Browser prüfen: Das Material erscheint beim aufgeklappten Leistungsziel unter «Material».
