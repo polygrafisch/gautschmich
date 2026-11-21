@@ -302,7 +302,7 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
 
 
 /* Verlinktes Lernmaterial */
-.lz-jahr.mit-material { grid-template-columns: 4.2rem minmax(0, 1fr) minmax(12rem, 17rem); column-gap: 1.6rem; }
+.lz-jahr.mit-material { grid-template-columns: 4.2rem minmax(0, 1fr) minmax(14rem, 20rem); column-gap: 1.6rem; }
 .lz-jahr.mit-material > .lj { grid-column: 2; grid-row: 1; }
 .lz-jahr.mit-material > .inhalte, .lz-jahr.mit-material > .leer { grid-column: 2; grid-row: 2; }
 .lz-mat { grid-column: 3; grid-row: 1 / span 2; }
@@ -311,7 +311,8 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
 .material a { font-weight: 700; text-decoration: underline; text-decoration-color: var(--f, var(--pink)); text-decoration-thickness: 2px; text-underline-offset: .22em; }
 .material a::before { content: "→ "; }
 .material a:hover { text-decoration-color: var(--schwarz); }
-.material span { font-size: .85rem; opacity: .55; }
+.material li > span { font-size: .85rem; opacity: .55; margin-left: auto; white-space: nowrap; }
+.material .ext { font-weight: 400; opacity: .6; }
 .lz-zeile .mat-hinweis { display: block; font-size: .8rem; font-weight: 700; margin-top: .15rem; }
 .mat-zahl { color: var(--schwarz); font-weight: 700; }
 .lz-zeile .mat-hinweis::before, .mat-zahl::before { content: ""; display: inline-block; width: .6em; height: .6em; border-radius: 50%; background: var(--f, var(--pink)); margin-right: .4em; vertical-align: .05em; }
@@ -729,8 +730,8 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
       var inhalte = (lz.jahre[j].inhalte || []).map(function (i) { return '<li' + (/^(Wird |Hinweis)/.test(i.text) ? ' class="verweis"' : '') + '>' + markieren(i.text) + '</li>'; }).join("");
       var mat = materialVon(lz, j).map(function (m) {
         var extern = /^https?:/.test(m.pfad);
-        return '<li><a href="' + esc(m.pfad) + '"' + (extern ? ' target="_blank" rel="noopener"' : '') + '>' + esc(m.titel) +
-          (extern ? '<span class="ext" aria-label="(öffnet in neuem Tab)"> ↗</span>' : '') + '</a>' + (m.art ? ' <span>' + esc(m.art) + '</span>' : '') + '</li>';
+        return '<li><a href="' + esc(m.pfad) + '"' + (extern ? ' target="_blank" rel="noopener"' : '') + '>' + esc(m.titel).replace(/ (\S+)$/, '\u00a0$1') +
+          (extern ? '<span class="ext" aria-label="(öffnet in neuem Tab)">\u00a0↗</span>' : '') + '</a>' + (m.art ? ' <span>' + esc(m.art) + '</span>' : '') + '</li>';
       }).join("");
       return '<div class="lz-jahr' + (mat ? ' mit-material' : '') + '"><b class="lj">' + j + '. Lehrjahr</b>' +
         (inhalte ? '<ul class="inhalte">' + inhalte + '</ul>' : '<p class="leer">Keine Inhalte aufgeführt.</p>') +
