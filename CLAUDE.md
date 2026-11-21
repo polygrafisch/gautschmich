@@ -39,7 +39,7 @@ Material zu einem Bereich darf dessen Farbe dezent als Akzent verwenden: Linie, 
 - Trennlinien: 1,5 px Schwarz für Hauptgliederung, 1 px mit 10 bis 20 % Schwarz für Unterteilungen.
 
 ## Technik
-- Jedes Material ist eine einzelne, in sich geschlossene HTML-Datei: Schrift, Bilder und Daten eingebettet, keine externen Abhängigkeiten. Sie läuft lokal per Doppelklick und auf dem Server.
+- Jedes Material ist eine einzelne, in sich geschlossene HTML-Datei: Schrift, Bilder und Daten eingebettet, keine externen Abhängigkeiten. Sie läuft lokal per Doppelklick und auf dem Server. Einzige Ausnahme ist der Besuchszähler GoatCounter im Fusszeilen-Baustein. Er zählt nur online und ist für die Funktion nicht nötig.
 - Keine Canvas-Pixel auslesen (getImageData). LibreWolf und Firefox mit Fingerprint-Schutz blockieren das. Daten lieber beim Erstellen vorberechnen.
 - Mobil tauglich (ab 360 px Breite), Tastatur bedienbar, prefers-reduced-motion respektieren.
 - Browser-Speicher (localStorage) nur für Kleinigkeiten wie Spielstand, immer mit try/catch.
