@@ -146,6 +146,10 @@ a { color: inherit; text-decoration: none; }
   display: flex; flex-direction: column;
 }
 .lehrplan h2 .nw { white-space: nowrap; }
+.lehrplan h2 .stern { font-size: .7em; vertical-align: .3em; line-height: 0; }
+/* «gautschmich» wird mit Pink angestrichen, sobald der Titel ins Bild kommt */
+.lehrplan h2 .anstrich { background: linear-gradient(var(--pink), var(--pink)) no-repeat 0 62% / 0% 82%; padding: 0 .1em; margin: 0 -.1em; -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: background-size 750ms cubic-bezier(.55, .05, .3, 1) 250ms; }
+.lehrplan h2 .anstrich.an { background-size: 100% 82%; }
 @media (min-width: 761px) { .lehrplan h2 .nw-d { white-space: nowrap; } }
 .lehrplan h2 .unter { display: block; font-weight: 400; font-size: .6em; line-height: 1.15; letter-spacing: 0; margin-top: .4em; }
 .lehrplan h2 {
@@ -244,7 +248,6 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
 .fuss b { font-weight: 700; }
 .fuss-links { display: flex; gap: 1.6rem; white-space: nowrap; }
 .fuss a:hover { text-decoration: underline; text-underline-offset: .2em; }
-.fuss a.gm-statistik { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
 .fuss {
   margin-top: auto;
   padding-top: .7rem;
@@ -346,6 +349,7 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .lehrplan h2 .anstrich { transition: none; }
   .brille-flug { opacity: 1; }
 }
 .gm-pkt { font-size: .7em; opacity: .5; }
@@ -389,7 +393,7 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
 <main class="bogen">
 
   <section class="lehrplan" id="lehrplan">
-    <h2><span class="satz">Auf gautschmi<span class="gm-pkt">.</span>ch findest du den Lehrplan für <span class="nw-d">Polygrafinnen und Polygrafen&nbsp;EFZ</span></span> <span class="unter">mit Lernmaterial, sortiert nach Handlungskompetenzen und Leistungszielen <span class="nw">an der Berufsfachschule*</span></span></h2>
+    <h2><span class="satz">Auf <span class="anstrich">gautschmich</span> findest du den Lehrplan für <span class="nw-d">Polygrafinnen und Polygrafen&nbsp;EFZ</span></span> <span class="unter">mit Lernmaterial, sortiert nach Handlungskompetenzen und Leistungszielen <span class="nw">an der Berufsfachschule<span class="stern">*</span></span></span></h2>
 
     <div class="lp-steuerung">
       <div class="lp-filter">
@@ -424,7 +428,7 @@ mark { background: none; color: inherit; font-weight: 700; box-shadow: inset 0 -
     <p class="lp-hinweis">*Es gelten die jeweiligen Schullehrpläne.</p>
 
     <footer class="fuss">
-      <span><b>gautschmi<span class="gm-pkt">.</span>ch</b> Alle Angaben ohne Gewähr. Anonyme <a class="gm-statistik" href="https://gautschmich.goatcounter.com/">Besuchsstatistik</a> ohne Cookies.</span>
+      <span><b>gautschmi<span class="gm-pkt">.</span>ch</b> Alle Angaben ohne Gewähr. Anonyme <a href="https://gautschmich.goatcounter.com/">Besuchsstatistik</a> ohne Cookies.</span>
       <span class="fuss-links"><a href="#" id="inhalteBeitragen">Inhalte beitragen</a><a href="#" id="fehlerMelden">Fehler melden</a><a href="#" id="nachOben">nach oben</a></span>
     </footer>
   </section>
@@ -907,6 +911,18 @@ document.querySelector(".runter").addEventListener("click", function (e) {
     location.href = "mailto:" + a[1] + String.fromCharCode(64) + a[0] + "?subject=" + encodeURIComponent(z[1]);
   });
 });
+</script>
+<script>
+/* Titel: «gautschmich» anstreichen, wenn er sichtbar wird */
+(function () {
+  var a = document.querySelector(".lehrplan h2 .anstrich");
+  if (!a) return;
+  if (!("IntersectionObserver" in window)) { a.classList.add("an"); return; }
+  var io = new IntersectionObserver(function (e) {
+    if (e[0].isIntersecting) { a.classList.add("an"); io.disconnect(); }
+  }, { threshold: 1, rootMargin: "0px 0px -15% 0px" });
+  io.observe(a);
+})();
 </script>
 <!-- Anonyme Besuchsstatistik ohne Cookies (GoatCounter) -->
 <script data-goatcounter="https://gautschmich.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
