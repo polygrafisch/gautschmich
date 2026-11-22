@@ -31,5 +31,16 @@
     "lehrjahre": [
       1
     ]
+  },
+  {
+    "titel": "Quiz Key Visuals",
+    "pfad": "material/keyvisuals-quiz/",
+    "art": "Lernspiel",
+    "leistungsziele": [
+      "b1.4"
+    ],
+    "lehrjahre": [
+      2
+    ]
   }
 ]
