@@ -47,7 +47,7 @@ ol.opts .dim{opacity:.4}
 ol.opts .ok .t{font-weight:700}
 ol.opts .no .t{text-decoration:line-through;text-decoration-thickness:1.5px}
 ol.opts .no{opacity:.6}
-.fb{margin-top:22px;padding-top:2px}
+.fb{margin-top:22px;padding-top:2px;scroll-margin-bottom:20px}
 .fb p{margin:.3em 0 0}
 .fb .v{font-weight:700}
 .shine{background:linear-gradient(105deg,var(--ink) 42%,color-mix(in srgb,var(--ink) 22%,var(--bg)) 50%,var(--ink) 58%);background-size:300% 100%;background-position:100% 0;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 1.9s cubic-bezier(.4,0,.2,1) .15s 1 both}
@@ -258,6 +258,9 @@ function pick(k){
   if(st.ans[st.i]) return;
   st.ans[st.i]={pick:k, ok:k===0};
   show();
+  // Erklärung und Countdown ins Bild holen, falls sie unter dem Bildschirmrand liegen (v. a. mobil)
+  const fb=document.querySelector(".fb");
+  if(fb){ const still=matchMedia("(prefers-reduced-motion: reduce)").matches; requestAnimationFrame(()=>fb.scrollIntoView({block:"nearest",behavior:still?"auto":"smooth"})); }
 }
 function next(){ if(!st.ans[st.i]?.seen) return; st.i++; show(); window.scrollTo({top:0,behavior:"smooth"}); }
 function result(){
