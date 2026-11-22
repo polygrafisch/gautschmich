@@ -23,7 +23,6 @@ html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font:400 1.0625rem/1.45 "TeX Gyre Heros","Helvetica Neue",Helvetica,Arial,sans-serif;overflow-x:clip;-webkit-font-smoothing:antialiased;hyphens:auto;-webkit-hyphens:auto}
 main{max-width:46em;margin:0 auto;padding:clamp(28px,5vw,64px) max(5vw,16px) 48px}
 h1{font-weight:700;font-size:clamp(2.2rem,6vw,3.25rem);line-height:1;letter-spacing:-.025em;margin:0}
-.lead{margin:.6em 0 0;max-width:34em}
 .hint{opacity:.62;font-size:.875rem;line-height:1.4}
 .top{padding-bottom:4px}
 .prog{display:flex;justify-content:space-between;gap:12px;margin-top:22px;font-size:.875rem}
@@ -87,8 +86,7 @@ ol.opts .no{opacity:.6}
 <div class="gm-kopf"><p class="kenn"><b>b</b>Ausgestalten von Medienprodukten, Leistungsziel b1.4</p><a class="heim" href="https://gautschmi.ch/">zurück zu gautschmich</a></div>
 <header class="top">
 <h1>Key Visuals</h1>
-<p class="lead">16 Fragen zu Bildidee, Adaption, Druck und Fernwirkung. Wähle jeweils eine Antwort, danach siehst du gleich die Erklärung.</p>
-<div class="prog" aria-live="polite"><span id="pos">Frage <b>1</b> von 16</span><span id="pts" class="hint">0 Punkte</span></div>
+<div class="prog" aria-live="polite"><span id="pos">Frage <b>1</b> von 14</span><span id="pts" class="hint">0 Punkte</span></div>
 <div class="bar" aria-hidden="true"><i id="fill" style="width:0"></i></div>
 </header>
 <section id="stage"></section>
@@ -181,9 +179,6 @@ const Q = [
  {q:"Warum braucht ein Weltformat-Plakat keine 300 ppi in Endgrösse?",
   a:["Weil man es aus grösserer Distanz betrachtet und feine Details ohnehin nicht sieht","Weil Plakatpapier keine hohen Auflösungen annimmt","Weil Plakate immer im Siebdruck entstehen","Weil die Druckerei das Bild selbst hochrechnet"],
   e:"Die nötige Auflösung hängt vom Betrachtungsabstand ab. Eine Broschüre hältst du in der Hand, ein Plakat siehst du aus einigen Metern. Welche Auflösung genau verlangt wird, steht in den Datenspezifikationen der Druckerei."},
- {q:"Das Key Visual wurde in RGB für den Bildschirm gestaltet und soll jetzt im Offset gedruckt werden. Was ist richtig?",
-  a:["Ins Ausgabeprofil der Druckerei konvertieren und leuchtende Farben im Softproof kontrollieren","Die Datei in RGB lassen, die Druckmaschine rechnet automatisch um","Mit einem beliebigen CMYK-Profil konvertieren, das Ergebnis ist überall gleich","Die Sättigung pauschal erhöhen, damit die Farben im Druck nicht flau wirken"],
-  e:"Leuchtende RGB-Farben liegen oft ausserhalb des Druckfarbraums und werden beim Konvertieren abgebildet (Gamut Mapping). Mit dem richtigen Profil, zum Beispiel PSO Coated v3, und einem Softproof siehst du vorher, welche Farben sich verändern."},
  {q:"Wie viel Text verträgt ein Strassenplakat?",
   a:["Möglichst wenig: eine kurze Headline, die man im Vorbeigehen in wenigen Sekunden erfasst","So viel wie ein Inserat, denn die Fläche ist ja grösser","Einen ganzen Absatz, wenn die Schrift gross genug ist","Text spielt keine Rolle, das Bild allein reicht immer"],
   e:"Ein Plakat hat nur wenige Sekunden Zeit. Die Faustregel lautet: ein starkes Bild, eine kurze Headline, ein klarer Absender. Alles Weitere gehört auf die Website oder ins Inserat."},
@@ -204,10 +199,7 @@ const Q = [
   e:"Mit Luft um das Motiv kannst du für Hoch-, Quer- und Quadratformate neue Ausschnitte wählen. Ein freigestelltes Motiv lässt sich zusätzlich frei auf dem Hintergrund platzieren."},
  {q:"Wie prüfst du schnell die Fernwirkung eines Key Visuals?",
   a:["Stark verkleinert anschauen oder mit zusammengekniffenen Augen betrachten","Auf 400 % zoomen und die Details kontrollieren","Die Datei als PDF/X exportieren","Die Farbwerte im Info-Bedienfeld ablesen"],
-  e:"Beim Blinzeltest verschwinden die Details, übrig bleiben Formen und Kontraste. Wenn du dann noch Motiv, Headline und Absender erkennst, funktioniert das Key Visual auch aus Distanz."},
- {q:"Was bedeutet DOOH?",
-  a:["Digital Out of Home: digitale Werbebildschirme im öffentlichen Raum, zum Beispiel am Bahnhof","Digital Offset on Hardpaper: ein Druckverfahren für Plakate","Design Output Overhead: der Zeitaufwand für Adaptionen","Direct Online Order Handling: Bestellung von Druckprodukten im Webshop"],
-  e:"Bei DOOH läuft das Key Visual auf Screens, oft animiert und in RGB. Die Kampagne braucht dafür eigene Formate, kurze Animationen und Inhalte, die auch ohne Ton verständlich sind."}
+  e:"Beim Blinzeltest verschwinden die Details, übrig bleiben Formen und Kontraste. Wenn du dann noch Motiv, Headline und Absender erkennst, funktioniert das Key Visual auch aus Distanz."}
 ];
 const L = ["A","B","C","D"];
 const $ = s => document.querySelector(s);
