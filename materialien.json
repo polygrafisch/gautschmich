@@ -42,5 +42,16 @@
     "lehrjahre": [
       2
     ]
+  },
+  {
+    "titel": "Quiz Freistelltechniken",
+    "pfad": "material/freistellen-quiz/",
+    "art": "Lernspiel",
+    "leistungsziele": [
+      "d2.4"
+    ],
+    "lehrjahre": [
+      1
+    ]
   }
 ]
