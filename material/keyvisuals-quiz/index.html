@@ -52,6 +52,8 @@ ol.opts .no{opacity:.6}
 .fb .v{font-weight:700}
 .shine{background:linear-gradient(105deg,var(--ink) 42%,color-mix(in srgb,var(--ink) 22%,var(--bg)) 50%,var(--ink) 58%);background-size:300% 100%;background-position:100% 0;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 1.9s cubic-bezier(.4,0,.2,1) .15s 1 both}
 @keyframes shine{0%{background-position:100% 0;opacity:.25}25%{opacity:1}100%{background-position:0 0;opacity:1}}
+.shine.again{animation:shine2 1.9s cubic-bezier(.4,0,.2,1) 0s 1 both}
+@keyframes shine2{0%{background-position:100% 0}100%{background-position:0 0}}
 .wait{display:flex;align-items:center;gap:14px;min-height:44px;margin-top:18px}
 .ring{position:relative;width:44px;height:44px;flex:none}
 .ring svg{display:block;width:44px;height:44px;transform:rotate(-90deg)}
@@ -232,11 +234,12 @@ function show(){
   else if(given) reveal(item.e, given);
 }
 function nextBtn(){ return `<button class="next" id="nx">${st.i+1<st.order.length?"Nächste Frage →":"Zur Auswertung →"}</button>`; }
-const WAIT = 12000;
+const WAIT = 12000, SHINE_AGAIN = 5000;
 function reveal(text, given){
   const me = ++run, pr=$("#pr"), sec=$("#sec"), ex=$("#ex");
-  // Glanz einmal über den Text, danach normale Schrift
-  ex.addEventListener("animationend",()=>ex.classList.remove("shine"),{once:true});
+  // Glanz über den Text, nach 5 Sekunden ein zweites Mal, dazwischen normale Schrift
+  ex.addEventListener("animationend",()=>ex.classList.remove("shine","again"));
+  let again=false;
   // Runder Timer
   const t0=performance.now(), C=125.66;
   const tick=()=>{
@@ -245,6 +248,7 @@ function reveal(text, given){
     const left=Math.max(0,WAIT-(now-t0));
     pr.setAttribute("stroke-dashoffset", (C*(1-left/WAIT)).toFixed(2));
     sec.textContent=Math.ceil(left/1000);
+    if(!again && now-t0>=SHINE_AGAIN){ again=true; ex.classList.add("shine","again"); }
     if(left>0) setTimeout(tick,50);
     else {
       given.seen=true;

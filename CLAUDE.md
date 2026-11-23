@@ -48,6 +48,14 @@ Material zu einem Bereich darf dessen Farbe dezent als Akzent verwenden: Linie, 
 - Kopfzeile: Oben rechts im Kopf jedes Materials steht der Link «zurück zu gautschmi.ch» (`https://gautschmi.ch/`), fett, in der Textfarbe des Bereichs, mit dem Ton 13 % hinterlegt; beim Überfahren Bereichslinie als Hintergrund und weisse Schrift. Links daneben der Kennbuchstabe und das Leistungsziel. Auf den Materialseiten steht sichtbar «gautschmich» ohne Punkt, also «zurück zu gautschmich». Die Startseite nimmt den Punkt nur zurück (`.gm-pkt`).
 - Fusszeile: Jedes Lernmaterial endet mit dem Baustein `quellen/fusszeile.html`, unverändert übernommen (HTML, CSS und Skript). Er enthält «**gautschmich** Alle Angaben ohne Gewähr.», «Fehler melden» und «zurück zu gautschmich». Die Hinweise zu den Schullehrplänen und zur Besuchsstatistik sowie «Inhalte beitragen» stehen nur auf der Startseite. Die Mailadresse wird erst beim Klick per JavaScript zusammengesetzt und darf nie im Quelltext stehen. Der Betreff enthält automatisch den Seitentitel (`<title>`), darum jedem Material einen treffenden Titel geben.
 
+## Quiz mit Erklärungen
+Gilt für alle Quiz, die nach einer Antwort eine Erklärung zeigen, also nicht nur «richtig» oder «falsch». Vorlage mit funktionierendem Code: `material/keyvisuals-quiz/index.html`.
+- Nach der Antwort: Antworten sperren. Die richtige Antwort fett mit «Richtig», eine falsch gewählte durchgestrichen mit «Deine Wahl», die übrigen abgeschwächt. Darunter fett «Richtig.» oder «Leider falsch.», dann die Erklärung.
+- Glanz: Ein heller, schräger Streifen läuft einmal über die Erklärung (1,9 s), nach 5 Sekunden ein zweites Mal. Beim zweiten Mal wird der Text nicht zuerst blasser. Bei `prefers-reduced-motion` kein Glanz.
+- Timer: Runder Countdown (44 px, Linie 1,5 px, Sekundenzahl in der Mitte) über 12 Sekunden, daneben «Lies die Erklärung, gleich geht es weiter.». Erst danach erscheint «Nächste Frage →» oder bei der letzten Frage «Zur Auswertung →». Enter geht auch.
+- Scrollen: Nach der Antwort scrollt die Seite so weit, dass Erklärung und Timer ganz sichtbar sind (`scrollIntoView({block: "nearest"})`, bei `prefers-reduced-motion` ohne weiches Scrollen). Wichtig vor allem mobil.
+- Bedienung: Antworten auch mit den Tasten A–D oder 1–4. Antwortreihenfolge gemischt. Am Schluss Auswertung mit Übersicht aller Fragen und «Nur falsche wiederholen».
+
 ## Aufbau des Repositorys
 ```
 index.html            Startseite, wird gebaut, nie von Hand bearbeiten
