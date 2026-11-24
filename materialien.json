@@ -42,5 +42,16 @@
     "lehrjahre": [
       1
     ]
+  },
+  {
+    "titel": "Quiz Farbkorrekturen selektiv I",
+    "pfad": "material/farbkorrekturen-selektiv-quiz/",
+    "art": "Lernspiel",
+    "leistungsziele": [
+      "d2.4"
+    ],
+    "lehrjahre": [
+      3
+    ]
   }
 ]
